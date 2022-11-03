@@ -2,6 +2,9 @@
 
 use std::fmt;
 
+
+mod instructions;
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum VMError {
     UNDERFLOW,
@@ -33,58 +36,45 @@ impl Stack {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-enum Instructions {
-    Add,
-    Push1(u8),
-}
+// fn execute(
+//     stack: &mut Stack,
+//     op: Instruction,
+//     more: &mut std::slice::Iter<Instruction>,
+// ) -> Result<(), VMError> {
 
-type Instruction = u8;
+//     println!("{:?}", op);
+//     match op {
+//         OP_ADD => {
+//             let a = stack.values.pop().ok_or(VMError::UNDERFLOW)?;
+//             let b = stack.values.pop().ok_or(VMError::UNDERFLOW)?;
+//             stack.values.push(Word(a.0 + b.0));
+//         }
+//         OP_PUSH1 => stack
+//             .values
+//             .push(Word(*more.next().ok_or(VMError::BADOP)? as u32)),
+//         _ =>  {
+//             return Err(VMError::BADOP)
+//         }
+//     }
+//     Ok(())
+// }
 
-const OP_ADD: Instruction = 0x01;
-const OP_PUSH1: Instruction = 0x02;
+// fn play_ground(stack: &mut Stack) -> Result<(), VMError> {
+//     let mut instructions: Vec<Instruction> = vec![OP_PUSH1, 1, OP_PUSH1, 2, OP_ADD];
 
-fn execute(
-    stack: &mut Stack,
-    op: Instruction,
-    more: &mut std::slice::Iter<Instruction>,
-) -> Result<(), VMError> {
+//     let mut iter = instructions.iter();
 
-    println!("{:?}", op);
-    match op {
-        OP_ADD => {
-            let a = stack.values.pop().ok_or(VMError::UNDERFLOW)?;
-            let b = stack.values.pop().ok_or(VMError::UNDERFLOW)?;
-            stack.values.push(Word(a.0 + b.0));
-        }
-        OP_PUSH1 => stack
-            .values
-            .push(Word(*more.next().ok_or(VMError::BADOP)? as u32)),
-        _ =>  {
-            return Err(VMError::BADOP)
-        }
-    }
-    Ok(())
-}
+//     while let Some(op) = iter.next() {
+//         let error = execute(stack, *op, &mut iter)?;
+//     }
 
-fn play_ground(stack: &mut Stack) -> Result<(), VMError> {
-    let mut instructions: Vec<Instruction> = vec![OP_PUSH1, 1, OP_PUSH1, 2, OP_ADD];
-
-    let mut iter = instructions.iter();
-
-    while let Some(op) = iter.next() {
-        let error = execute(stack, *op, &mut iter)?;
-    }
-
-    Ok(())
-}
+//     Ok(())
+// }
 
 fn main() {
     let mut stack = Stack::default();
-    match play_ground(&mut stack) {
-        Ok(()) => println!("DONE! {:?}", stack.values),
-        Err(err) => println!("ERROR: {:?}", err),
-    }
+   
+   // let ops: std::collections::HashMap<_,_> =  
 }
 
 // MVP
